@@ -20,10 +20,12 @@ def get_continuous_chunks(tagged_sent):
 
 #--------------------------------------------------------------------------------
 
-test = wikipedia.page("Os Mutantes")
+test = wikipedia.page("Ligeti Hans-Christian")
 page = wikipedia.WikipediaPage(pageid = test.pageid)
 links = page.links
+#print(links)
 
+#print("-------------------------------------------------------------------------------------------------------")
 jar = '/var/www/randyjackson.net/public_html/research/wikiresearch/nert/stanford-ner-2018-10-16/stanford-ner.jar'
 model = '/var/www/randyjackson.net/public_html/research/wikiresearch/nert/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
 
@@ -35,11 +37,11 @@ named_entities_str_tag = [(" ".join([token for token, tag in ne]), ne[0][1]) for
 
 names = set()
 
-#for x in named_entities_str_tag:
-    #if(x[1] == 'PERSON'):
-        #names.add(x[0])
+for x in named_entities_str_tag:
+    if(x[1] == 'PERSON'):
+        names.add(x[0])
 
-print(named_entities_str_tag)
+print(names)
 
 
 
