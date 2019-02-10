@@ -26,7 +26,7 @@ def get_name_list(search, resultStack):
         page = wikipedia.WikipediaPage(pageid = test.pageid)
         links = page.links
 
-        jar = '/var/www/randyjackson.net/public_html/research/wikiresearch/nert/stanford-ner-2018-10-16/stanford-ner.jar -XX:MaxDirectMemorySize=200m'
+        jar = '/var/www/randyjackson.net/public_html/research/wikiresearch/nert/stanford-ner-2018-10-16/stanford-ner.jar'
         model = '/var/www/randyjackson.net/public_html/research/wikiresearch/nert/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
 
         stner = StanfordNERTagger(model, jar, encoding='utf8')

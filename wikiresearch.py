@@ -7,7 +7,7 @@ import collections
 import wikipedia
 
 resultStack = collections.deque()
-names = get.get_name_list("j dilla", resultStack)
+names = get.get_name_list("jimi hendrix", resultStack)
 
 search = ''
 
@@ -32,5 +32,5 @@ for x in range(5):
     print(video.duration)
 
     get.get_name_list( resultStack.popleft() , resultStack)
-    print(resultStack)
+    #print(resultStack)
 
