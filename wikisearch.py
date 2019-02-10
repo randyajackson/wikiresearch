@@ -1,6 +1,6 @@
 import wikipedia
 from nltk.tag import StanfordNERTagger
-
+import collections
 
 def get_continuous_chunks(tagged_sent):
     continuous_chunk = []
@@ -19,14 +19,14 @@ def get_continuous_chunks(tagged_sent):
     return continuous_chunk
 
 #--------------------------------------------------------------------------------
-def get_name_list(search):
+def get_name_list(search, resultStack):
     
     try:
         test = wikipedia.page(search)
         page = wikipedia.WikipediaPage(pageid = test.pageid)
         links = page.links
 
-        jar = '/var/www/randyjackson.net/public_html/research/wikiresearch/nert/stanford-ner-2018-10-16/stanford-ner.jar'
+        jar = '/var/www/randyjackson.net/public_html/research/wikiresearch/nert/stanford-ner-2018-10-16/stanford-ner.jar -XX:MaxDirectMemorySize=200m'
         model = '/var/www/randyjackson.net/public_html/research/wikiresearch/nert/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
 
         stner = StanfordNERTagger(model, jar, encoding='utf8')
@@ -41,10 +41,15 @@ def get_name_list(search):
             if(x[1] == 'PERSON'):
                 names.add(x[0])
 
-        return list(names)
+        list(names)
+
+        for x in names:
+            resultStack.append(x)
+
+        return resultStack
     
-    except wikipedia.exceptions.DisambiguationError as e:
-        return "Invalid"
+    except (wikipedia.exceptions.PageError, wikipedia.exceptions.DisambiguationError):
+        resultStack.popleft()
 
 
 
