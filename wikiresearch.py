@@ -6,8 +6,10 @@ import pafy
 import collections
 import wikipedia
 
+
+
 resultStack = collections.deque()
-names = get.get_name_list("jimi hendrix", resultStack)
+names = get.get_name_list("mf doom", resultStack)
 
 search = ''
 
@@ -18,15 +20,29 @@ def ytSearch(artist):
     return search_results
 
 for x in range(5):
-
+    print("in loop")
     search = ytSearch(resultStack.popleft())
 
-    while(len(search[0]) == 0):
-        search = ytSearch(resultStack.popleft())
+    while(True):
+        if not search:
+            search = ytSearch(resultStack.popleft())
+            print("no yt results")
+        else:
+            break
     
     url = "http://www.youtube.com/watch?v=" + search[0]
 
     video = pafy.new(url)
+
+    while(video.category != "Music"):
+        while(True):
+            if not search:
+                search = ytSearch(resultStack.popleft())
+                print("not musicS")
+            else:
+                break
+        video = pafy.new(url)
+
     print(url)
     print(video.category)
     print(video.duration)
