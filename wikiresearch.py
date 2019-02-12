@@ -1,4 +1,4 @@
-import wikisearch as get
+import get_names as get
 import urllib.request
 import urllib.parse
 import re
@@ -6,12 +6,19 @@ import pafy
 import collections
 import wikipedia
 
-
-
 resultStack = collections.deque()
-names = get.get_name_list("mf doom", resultStack)
+names = get.get_name_list("tiny moving parts", resultStack)
 
 search = ''
+def ensure_search(search):
+    global resultStack
+    search = ytSearch(resultStack.popleft())
+
+    while not len(search):
+        search = ytSearch(resultStack.popleft())
+        print("no yt results")
+    
+    return search
 
 def ytSearch(artist):
     query_string = urllib.parse.urlencode({"search_query" : artist})
@@ -20,33 +27,22 @@ def ytSearch(artist):
     return search_results
 
 for x in range(5):
-    print("in loop")
-    search = ytSearch(resultStack.popleft())
-
-    while(True):
-        if not search:
-            search = ytSearch(resultStack.popleft())
-            print("no yt results")
-        else:
-            break
-    
+    search = ensure_search(resultStack.popleft())
     url = "http://www.youtube.com/watch?v=" + search[0]
-
     video = pafy.new(url)
 
     while(video.category != "Music"):
-        while(True):
-            if not search:
-                search = ytSearch(resultStack.popleft())
-                print("not musicS")
-            else:
-                break
+        print("in music check")
+        search = ensure_search(resultStack.popleft())
+
+        url = "http://www.youtube.com/watch?v=" + search[0]
         video = pafy.new(url)
+
 
     print(url)
     print(video.category)
     print(video.duration)
+    print(video.keywords)
 
     get.get_name_list( resultStack.popleft() , resultStack)
-    #print(resultStack)
 
