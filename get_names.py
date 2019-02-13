@@ -1,10 +1,6 @@
 import wikipedia
 import nltk
-from nltk.corpus import stopwords
-from nltk.corpus import nps_chat
 import collections
-
-stop = stopwords.words('english')
 
 def get_name_list(search, resultStack):	
     try:
